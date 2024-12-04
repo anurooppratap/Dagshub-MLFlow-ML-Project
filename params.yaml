@@ -1,0 +1,16 @@
+preprocess:
+  input: data/raw/data.csv
+  output: data/processed/data.csv
+
+train:
+  data: data/raw/data.csv
+  model: models/model.pkl
+  random_state: 42
+  n_estimators: 100
+  max_depth: 5
+
+# YAML file organizes the machine learning workflow into distinct stages:
+
+# Preprocessing: Input raw data is transformed and saved to a new location.
+# Training: A machine learning model is trained using the processed data, 
+# with specific parameters for reproducibility and model configuration.
