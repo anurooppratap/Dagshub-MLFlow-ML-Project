@@ -1,0 +1,32 @@
+### For Adding Stages
+
+dvc stage add -n preprocess \ 
+    # This is the command used to add a new stage to your DVC pipeline. It tells DVC that you’re defining a step in the pipeline that processes data in some way.
+    # -n preprocess: This option sets the name of the stage to preprocess. It is the identifier for the stage, which is typically a descriptive name for the operation or task the stage performs (e.g., "preprocessing" in this case)
+    
+    -p preprocess.input,preprocess.output \
+    # This option links parameters that control the stage. These parameters (likely defined in a params.yaml file or within the DVC pipeline configuration) are referenced in the script. Here, preprocess.input and preprocess.output are parameters that define the paths or inputs and outputs used in the preprocessing step.
+    # These parameters will allow you to easily change the input/output locations of the preprocessing stage via a configuration file, without needing to modify the script directly
+    
+    -d src/preprocess.py -d data/raw/data.csv \
+    # -d flags define dependencies for this stage. These are the files or directories that the stage depends on.
+        # src/preprocess.py: The Python script used to preprocess the data
+        # data/raw/data.csv: The raw dataset that will be preprocessed 
+    
+    -o data/processed/data.csv \
+    # -o flags define outputs for this stage. In this case, the output of the preprocessing step is data/processed/data.csv
+    # DVC will track this output, and if it changes in the future (e.g., the processed data is modified), it will recognize the output has been altered
+
+    python src/preprocess.py
+    # This is the actual command that will be run when executing the stage. In this case, it’s a Python command that runs the preprocess.py script located in the src/ directory
+	# The script preprocess.py will take the raw data (data/raw/data.csv), apply some transformation or cleaning operations, and save the processed data to data/processed/data.csv
+	
+dvc stage add -n train \
+    -p train.data,train.model,train.random_state,train.n_estimators,train.max_depth \
+    -d src/train.py -d data/raw/data.csv \
+    -o models/model.pkl \
+    python src/train.py
+	
+dvc stage add -n evaluate \
+    -d src/evaluate.py -d models/model.pkl -d data/raw/data.csv \
+    python src/evaluate.py
