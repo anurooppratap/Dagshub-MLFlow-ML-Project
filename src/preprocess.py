@@ -11,12 +11,12 @@ params = yaml.safe_load(open("params.yaml"))['preprocess']
 # yaml.safe_load: Reads and parses the file into a Python dictionary.
 # ['preprocess']: Extracts the preprocess section from the YAML configuration. It should look something like this:
     # preprocess:
-    #   input: "path/to/input.csv"
-    #   output: "path/to/output.csv"
+    #   input: "data/raw/data.csv"
+    #   output: "data/processed/data.csv"
 # After this, params will contain
     # params = {
-    #     "input": "path/to/input.csv",
-    #     "output": "path/to/output.csv"
+    #     "input": "data/raw/data.csv",
+    #     "output": "data/processed/data.csv"
     # }
 
 ## Data preprocessing
